@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "links": [
+    {
+      "name": "orfx.kerry.ink",
+      "url": "https://orfx.kerry.ink",
+      "description": "Orpheus ecosystem — agents, constellation, philosophy"
+    },
+    {
+      "name": "nameless.quest",
+      "url": "https://nameless.quest",
+      "description": "A quest without a name"
+    },
+    {
+      "name": "fullsmile.world",
+      "url": "https://fullsmile.world",
+      "description": "Exploring presence and authenticity"
+    },
+    {
+      "name": "krry.dev",
+      "url": "https://krry.dev",
+      "description": "Development portfolio and projects"
+    },
+    {
+      "name": "passage",
+      "url": "https://passage.kerry.ink",
+      "description": "Stories and reflections"
+    }
+  ],
+  "metadata": {
+    "updated": "2026-02-08T21:27:00Z",
+    "count": 5
+  }
+}

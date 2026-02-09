@@ -1,0 +1,44 @@
+{
+  "name": "webring-widget",
+  "version": "1.0.0",
+  "description": "ESM + Web Component webring widget for *.kerry.ink sites",
+  "type": "module",
+  "main": "public/widgets/webring/webring.esm.js",
+  "module": "public/widgets/webring/webring.esm.js",
+  "exports": {
+    ".": {
+      "import": "./public/widgets/webring/webring.esm.js",
+      "require": "./public/widgets/webring/webring.esm.js"
+    },
+    "./wc": {
+      "import": "./public/widgets/webring/webring.wc.js"
+    },
+    "./styles": {
+      "import": "./public/widgets/webring/webring.css"
+    }
+  },
+  "scripts": {
+    "build": "node build/build.js",
+    "dev": "node build/build.js --watch",
+    "watch": "node build/build.js --watch",
+    "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map"
+  },
+  "keywords": [
+    "webring",
+    "web-component",
+    "esm",
+    "react"
+  ],
+  "author": "Kerry Winfrey",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "esbuild": "^0.19.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
