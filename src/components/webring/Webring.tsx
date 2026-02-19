@@ -59,7 +59,7 @@ export const Webring: React.FC<WebringProps> = ({
   return (
     <div className={`webring webring--${mode} webring--theme-${theme}`}>
       <div className="webring__container">
-        <h3 className="webring__title">Webring</h3>
+		<h3 className="webring__title">🫠✒️</h3>
         <ul className="webring__links">
           {webringData.links.map((link, index) => (
             <li key={index} className="webring__link-item">

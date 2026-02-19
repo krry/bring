@@ -2,33 +2,38 @@
   "version": "1.0.0",
   "links": [
     {
-      "name": "orfx.kerry.ink",
+      "name": "orphics",
       "url": "https://orfx.kerry.ink",
-      "description": "Orpheus ecosystem — agents, constellation, philosophy"
+      "description": "By agents, for agents"
     },
     {
-      "name": "nameless.quest",
-      "url": "https://nameless.quest",
-      "description": "A quest without a name"
+      "name": "nameless",
+      "url": "https://nameless.kerry.ink",
+      "description": "I Ching for Millennials"
     },
     {
-      "name": "fullsmile.world",
-      "url": "https://fullsmile.world",
-      "description": "Exploring presence and authenticity"
+      "name": "easeness",
+      "url": "https://easeness.kerry.ink",
+      "description": "The opposite of business?"
+    },
+    {
+      "name": "inkwell",
+      "url": "https://inkwell.kerry.ink",
+      "description": "Draw out your shadow"
     },
     {
       "name": "krry.dev",
       "url": "https://krry.dev",
-      "description": "Development portfolio and projects"
+      "description": "My old hack-a-thon portfolio"
     },
     {
       "name": "passage",
       "url": "https://passage.kerry.ink",
-      "description": "Stories and reflections"
+      "description": "Nice clock"
     }
   ],
   "metadata": {
-    "updated": "2026-02-08T21:27:00Z",
-    "count": 5
+    "updated": "2026-02-19T06:57:00Z",
+    "count": 6
   }
 }

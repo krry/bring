@@ -22,6 +22,7 @@
     "dev": "node build/build.js --watch",
     "watch": "node build/build.js --watch",
     "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map",
+    "publish": "./scripts/publish-cdn.sh",	
     "test": "node test/server.js",
     "test:build": "npm run build && npm run test"
   },

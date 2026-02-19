@@ -9,6 +9,7 @@ class WebringElement extends HTMLElement {
   private shadow: ShadowRoot;
   private data: WebringData | null = null;
   private loading = false;
+  private expanded = false;
 
   constructor() {
     super();
@@ -28,6 +29,14 @@ class WebringElement extends HTMLElement {
   async connectedCallback(): Promise<void> {
     this.render();
     await this.loadData();
+    
+    // Listen for system theme changes when theme="auto"
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', () => {
+      if (this.getAttribute('theme') === 'auto') {
+        this.render();
+      }
+    });
   }
 
   /**
@@ -74,11 +83,22 @@ class WebringElement extends HTMLElement {
   }
 
   /**
+   * Resolve theme (auto -> light/dark based on system preference)
+   */
+  private resolveTheme(): string {
+    const themeAttr = this.getAttribute('theme') || 'auto';
+    if (themeAttr === 'auto') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return themeAttr;
+  }
+
+  /**
    * Main render method
    */
   private render(): void {
     const mode = this.getAttribute('mode') || 'compact';
-    const theme = this.getAttribute('theme') || 'auto';
+    const theme = this.resolveTheme();
 
     if (!this.data) {
       return;
@@ -87,38 +107,73 @@ class WebringElement extends HTMLElement {
     const html = `
       <style>
         :host {
-          --webring-text-color: #333;
-          --webring-bg-color: #fff;
-          --webring-link-color: #0066cc;
-          --webring-border-color: #ddd;
-        }
-
-        :host([theme="dark"]) {
-          --webring-text-color: #eee;
-          --webring-bg-color: #222;
-          --webring-link-color: #66b3ff;
-          --webring-border-color: #444;
+          /* Light mode defaults (glass effect) */
+          --glass-bg: rgba(255, 255, 255, 0.5);
+          --glass-border: rgba(255, 255, 255, 0.62);
+          --text: rgba(0, 0, 0, 0.82);
+          --muted: rgba(0, 0, 0, 0.62);
+          --shadow: rgba(0, 0, 0, 0.18);
+          --blur: 18px;
         }
 
         .webring {
-          color: var(--webring-text-color);
-          background: var(--webring-bg-color);
-          border: 1px solid var(--webring-border-color);
-          border-radius: 4px;
+          color: var(--text);
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          backdrop-filter: blur(var(--blur));
+          -webkit-backdrop-filter: blur(var(--blur));
+          box-shadow: 0 12px 40px var(--shadow);
+          border-radius: 12px;
           padding: 1rem;
           font-family: system-ui, -apple-system, sans-serif;
+          cursor: pointer;
+          transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+          overflow: hidden;
+        }
+
+        .webring--collapsed {
+          padding: 0.75rem;
+          max-height: 3.5rem;
+        }
+
+        .webring--expanded {
+          max-height: 500px;
+        }
+
+        .webring--dark {
+          --glass-bg: rgba(255, 255, 255, 0.14);
+          --glass-border: rgba(255, 255, 255, 0.28);
+          --text: rgba(255, 255, 255, 0.92);
+          --muted: rgba(255, 255, 255, 0.7);
+          --shadow: rgba(0, 0, 0, 0.35);
         }
 
         .webring__title {
-          margin: 0 0 0.5rem 0;
-          font-size: 1.1em;
+          margin: 0;
+          font-size: 1.5em;
           font-weight: 600;
+          text-align: center;
+          transition: margin 300ms ease;
+        }
+
+        .webring--expanded .webring__title {
+          margin-bottom: 0.5rem;
         }
 
         .webring__links {
           list-style: none;
           padding: 0;
           margin: 0;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 300ms ease, transform 300ms ease;
+          pointer-events: none;
+        }
+
+        .webring--expanded .webring__links {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
         }
 
         .webring__link-item {
@@ -126,23 +181,25 @@ class WebringElement extends HTMLElement {
         }
 
         .webring__link {
-          color: var(--webring-link-color);
+          color: var(--text);
           text-decoration: none;
+          opacity: 0.85;
+          transition: opacity 120ms ease;
         }
 
         .webring__link:hover {
-          text-decoration: underline;
+          opacity: 1;
         }
 
         .webring__description {
           margin: 0.25rem 0 0 0;
           font-size: 0.9em;
-          opacity: 0.7;
+          color: var(--muted);
         }
       </style>
 
-      <div class="webring webring--${mode} webring--theme-${theme}">
-        <h3 class="webring__title">Webring</h3>
+      <div class="webring webring--${mode}${theme === 'dark' ? ' webring--dark' : ''}${this.expanded ? ' webring--expanded' : ' webring--collapsed'}">
+        <h3 class="webring__title">🫠✒️</h3>
         <ul class="webring__links">
           ${this.data.links
             .map(
@@ -165,6 +222,37 @@ class WebringElement extends HTMLElement {
     `;
 
     this.shadow.innerHTML = html;
+    this.attachEventListeners();
+  }
+
+  /**
+   * Attach event listeners for expand/collapse
+   */
+  private attachEventListeners(): void {
+    const webring = this.shadow.querySelector('.webring');
+    if (!webring) return;
+
+    // Click to toggle
+    webring.addEventListener('click', () => {
+      this.expanded = !this.expanded;
+      this.render();
+    });
+
+    // Hover to expand (but not collapse)
+    webring.addEventListener('mouseenter', () => {
+      if (!this.expanded) {
+        this.expanded = true;
+        this.render();
+      }
+    });
+
+    // Optional: collapse on mouse leave (comment out if you want click-to-collapse only)
+    // webring.addEventListener('mouseleave', () => {
+    //   if (this.expanded) {
+    //     this.expanded = false;
+    //     this.render();
+    //   }
+    // });
   }
 
   /**
