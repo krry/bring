@@ -126,27 +126,7 @@
 }
 
 .webring--theme-auto {
-  /* Auto-detects system preference via prefers-color-scheme */
-}
-
-@media (prefers-color-scheme: dark) {
-  .webring--theme-auto {
-    --webring-text-color: #eee;
-    --webring-bg-color: #222;
-    --webring-link-color: #66b3ff;
-    --webring-link-hover-color: #99ccff;
-    --webring-border-color: #444;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .webring--theme-auto {
-    --webring-text-color: #333;
-    --webring-bg-color: #fff;
-    --webring-link-color: #0066cc;
-    --webring-link-hover-color: #004499;
-    --webring-border-color: #ddd;
-  }
+  /* Uses system preference (handled by JS if needed) */
 }
 
 /* Display modes */

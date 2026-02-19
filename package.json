@@ -21,7 +21,9 @@
     "build": "node build/build.js",
     "dev": "node build/build.js --watch",
     "watch": "node build/build.js --watch",
-    "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map"
+    "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map",
+    "test": "node test/server.js",
+    "test:build": "npm run build && npm run test"
   },
   "keywords": [
     "webring",

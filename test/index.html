@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Webring Widget Test Page</title>
+        <style>
+            body {
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                line-height: 1.6;
+                margin: 0;
+                padding: 2rem;
+                background-color: #f5f5f5;
+                color: #333;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                color: #222;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .section {
+                background: white;
+                border-radius: 8px;
+                padding: 2rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .section h2 {
+                color: #0066cc;
+                margin-top: 0;
+                border-bottom: 2px solid #0066cc;
+                padding-bottom: 0.5rem;
+            }
+
+            .section p {
+                color: #666;
+                margin-bottom: 1.5rem;
+            }
+
+            .code-block {
+                background: #f0f0f0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 1rem;
+                font-family:
+                    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+                font-size: 0.9em;
+                overflow-x: auto;
+                margin: 1rem 0;
+            }
+
+            .controls {
+                background: #f8f8f8;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .controls label {
+                margin-right: 1rem;
+                font-weight: 500;
+            }
+
+            .controls select,
+            .controls input {
+                padding: 0.5rem;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-right: 1rem;
+            }
+
+            .controls button {
+                padding: 0.5rem 1rem;
+                background: #0066cc;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .controls button:hover {
+                background: #0055aa;
+            }
+
+            .demo-area {
+                border: 1px dashed #ccc;
+                padding: 1rem;
+                min-height: 200px;
+                margin-top: 1rem;
+            }
+
+            .theme-toggle {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                background: #0066cc;
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .theme-toggle:hover {
+                background: #0055aa;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🔗 Webring Widget Test Page</h1>
+
+            <button class="theme-toggle" id="themeToggle">Toggle Dark Mode</button>
+
+            <!-- Web Component Demo Section -->
+            <section class="section">
+                <h2>🧩 Web Component Demo</h2>
+                <p>
+                    This demonstrates the self-contained Web Component version that can be
+                    used in any HTML page.
+                </p>
+
+                <div class="code-block">
+                    Usage: &lt;webring-widget data-source="./webring/webring.json"
+                    mode="compact" theme="auto"&gt;&lt;/webring-widget&gt;
+                </div>
+
+                <div class="controls">
+                    <label for="wcMode">Mode:</label>
+                    <select id="wcMode">
+                        <option value="compact">Compact</option>
+                        <option value="full">Full</option>
+                    </select>
+
+                    <label for="wcTheme">Theme:</label>
+                    <select id="wcTheme">
+                        <option value="auto">Auto</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+
+                    <label for="wcDataSource">Data Source:</label>
+                    <input
+                        type="text"
+                        id="wcDataSource"
+                        value="./webring/webring.json"
+                        size="30"
+                    />
+
+                    <button id="wcUpdate">Update Widget</button>
+                </div>
+
+                <div class="demo-area">
+                    <webring-widget
+                        id="wcDemo"
+                        data-source="./webring/webring.json"
+                        mode="compact"
+                        theme="auto"
+                    ></webring-widget>
+                </div>
+            </section>
+
+            <!-- ESM React Component Demo Section -->
+            <section class="section">
+                <h2>📦 ESM React Component Demo</h2>
+                <p>
+                    This demonstrates the React component version for use in React
+                    applications.
+                </p>
+
+                <div class="code-block">
+                    import { Webring } from './webring/webring.esm.js'; &lt;Webring
+                    data="./webring/webring.json" mode="compact" theme="auto"
+                    onLinkClick={(link) => console.log('Link clicked:', link.name)} /&gt;
+                </div>
+
+                <div class="controls">
+                    <label for="reactMode">Mode:</label>
+                    <select id="reactMode">
+                        <option value="compact">Compact</option>
+                        <option value="full">Full</option>
+                    </select>
+
+                    <label for="reactTheme">Theme:</label>
+                    <select id="reactTheme">
+                        <option value="auto">Auto</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+
+                    <button id="reactUpdate">Update Component</button>
+                </div>
+
+                <div class="demo-area" id="reactDemo"></div>
+            </section>
+
+            <!-- Multiple Instances Demo -->
+            <section class="section">
+                <h2>🔢 Multiple Instances Demo</h2>
+                <p>Showing multiple webring widgets with different configurations.</p>
+
+                <div class="demo-area">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+                        <div>
+                            <h3>Compact Mode</h3>
+                            <webring-widget
+                                data-source="./webring/webring.json"
+                                mode="compact"
+                                theme="light"
+                            ></webring-widget>
+                        </div>
+                        <div>
+                            <h3>Full Mode</h3>
+                            <webring-widget
+                                data-source="./webring/webring.json"
+                                mode="full"
+                                theme="light"
+                            ></webring-widget>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Handling Demo -->
+            <section class="section">
+                <h2>⚠️ Error Handling Demo</h2>
+                <p>Testing error states and edge cases.</p>
+
+                <div class="demo-area">
+                    <h3>Invalid Data Source</h3>
+                    <webring-widget
+                        data-source="./nonexistent.json"
+                        mode="compact"
+                        theme="light"
+                    ></webring-widget>
+
+                    <h3>Empty Data Source</h3>
+                    <webring-widget
+                        data-source=""
+                        mode="compact"
+                        theme="light"
+                    ></webring-widget>
+                </div>
+            </section>
+        </div>
+
+        <!-- Load Web Component -->
+        <script type="module" src="./webring/webring.wc.js"></script>
+
+        <!-- Load React for ESM demo -->
+        <script
+            crossorigin
+            src="https://unpkg.com/react@18/umd/react.development.js"
+        ></script>
+        <script
+            crossorigin
+            src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+        ></script>
+
+        <!-- Load ESM component -->
+        <script type="module">
+            import { Webring } from "./webring.esm.js";
+            import React from "https://esm.sh/react@18";
+            import ReactDOM from "https://esm.sh/react-dom@18";
+
+            // React component demo
+            let reactMode = "compact";
+            let reactTheme = "auto";
+
+            function renderReactDemo() {
+                const root = ReactDOM.createRoot(document.getElementById("reactDemo"));
+                root.render(
+                    React.createElement(Webring, {
+                        data: "./webring/webring.json",
+                        mode: reactMode,
+                        theme: reactTheme,
+                        onLinkClick: (link) => {
+                            console.log("React component link clicked:", link.name);
+                            alert("Link clicked: " + link.name);
+                        },
+                    }),
+                );
+            }
+
+            // Initial render
+            renderReactDemo();
+
+            // Update controls
+            document.getElementById("reactMode").addEventListener("change", (e) => {
+                reactMode = e.target.value;
+                renderReactDemo();
+            });
+
+            document.getElementById("reactTheme").addEventListener("change", (e) => {
+                reactTheme = e.target.value;
+                renderReactDemo();
+            });
+
+            document
+                .getElementById("reactUpdate")
+                .addEventListener("click", renderReactDemo);
+        </script>
+
+        <!-- Web Component controls -->
+        <script>
+            const wcDemo = document.getElementById("wcDemo");
+            const wcMode = document.getElementById("wcMode");
+            const wcTheme = document.getElementById("wcTheme");
+            const wcDataSource = document.getElementById("wcDataSource");
+            const wcUpdate = document.getElementById("wcUpdate");
+
+            wcUpdate.addEventListener("click", () => {
+                wcDemo.setAttribute("mode", wcMode.value);
+                wcDemo.setAttribute("theme", wcTheme.value);
+                wcDemo.setAttribute("data-source", wcDataSource.value);
+            });
+
+            // Theme toggle for the whole page
+            const themeToggle = document.getElementById("themeToggle");
+            const body = document.body;
+
+            themeToggle.addEventListener("click", () => {
+                body.classList.toggle("dark-mode");
+
+                // Emit a custom event that widgets can listen to
+                document.dispatchEvent(new CustomEvent("page-theme-changed", {
+                    detail: { isDark: body.classList.contains("dark-mode") }
+                }));
+
+                // Update all widgets to respond to theme change
+                const widgets = document.querySelectorAll("webring-widget");
+                widgets.forEach((widget) => {
+                    const currentTheme = widget.getAttribute("theme");
+                    if (currentTheme === "auto") {
+                        // Force re-render by temporarily changing theme
+                        widget.setAttribute("theme", "light");
+                        setTimeout(() => widget.setAttribute("theme", "auto"), 10);
+                    }
+                });
+            });
+
+            // Add dark mode styles
+            const style = document.createElement("style");
+            style.textContent = `
+      body.dark-mode {
+        background-color: #222;
+        color: #eee;
+      }
+
+      body.dark-mode .section {
+        background: #333;
+        color: #eee;
+        border-color: #444;
+      }
+
+      body.dark-mode .section h2 {
+        color: #66b3ff;
+        border-bottom-color: #66b3ff;
+      }
+
+      body.dark-mode .code-block {
+        background: #111;
+        border-color: #444;
+        color: #ccc;
+      }
+
+      body.dark-mode .controls {
+        background: #111;
+        border-color: #444;
+        color: #ccc;
+      }
+    `;
+            document.head.appendChild(style);
+        </script>
+    </body>
+</html>
