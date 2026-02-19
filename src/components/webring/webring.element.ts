@@ -133,7 +133,7 @@ class WebringElement extends HTMLElement {
 
         .webring--collapsed {
           padding: 0.75rem;
-          max-height: 3.5rem;
+          max-height: 2.25rem;
         }
 
         .webring--expanded {
