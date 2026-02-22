@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Widget</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: system-ui;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="color: white;">Debug Widget</h1>
+  <webring-widget 
+    id="test-widget"
+    data-source="/widgets/webring/webring.json" 
+    size="medium"
+    theme="auto">
+  </webring-widget>
+
+  <script src="/widgets/webring/webring.wc.js"></script>
+  <script>
+    const widget = document.getElementById('test-widget');
+    
+    // Log attribute changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes') {
+          console.log('Attribute changed:', mutation.attributeName, '=', widget.getAttribute(mutation.attributeName));
+        }
+      });
+    });
+    
+    observer.observe(widget, { attributes: true });
+
+    // Log when widget loads
+    setTimeout(() => {
+      const shadow = widget.shadowRoot;
+      console.log('Shadow root:', shadow);
+      console.log('Widget element:', shadow.querySelector('.widget'));
+      console.log('Handle element:', shadow.querySelector('.handle'));
+      
+      // Log handle clicks
+      const handle = shadow.querySelector('.handle');
+      if (handle) {
+        handle.addEventListener('click', () => {
+          console.log('Handle clicked!');
+          console.log('Widget classes:', shadow.querySelector('.widget').className);
+        });
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

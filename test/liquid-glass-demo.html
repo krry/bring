@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquid Glass Widget Demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .demo-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .demo-label {
+      color: white;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+
+    .controls {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      color: white;
+    }
+
+    .controls button {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      margin: 0.25rem;
+    }
+
+    .controls button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-section">
+    <div class="demo-label">Small (64px)</div>
+    <webring-widget 
+      data-source="/widgets/webring/webring.json" 
+      size="small"
+      theme="auto">
+    </webring-widget>
+  </div>
+
+  <div class="demo-section">
+    <div class="demo-label">Medium (240px)</div>
+    <webring-widget 
+      data-source="/widgets/webring/webring.json" 
+      size="medium"
+      theme="auto">
+    </webring-widget>
+  </div>
+
+  <div class="demo-section">
+    <div class="demo-label">Large (320px)</div>
+    <webring-widget 
+      data-source="/widgets/webring/webring.json" 
+      size="large"
+      theme="auto">
+    </webring-widget>
+  </div>
+
+  <div class="controls">
+    <div style="margin-bottom: 0.5rem; font-weight: 600;">Theme</div>
+    <button onclick="setTheme('light')">Light</button>
+    <button onclick="setTheme('dark')">Dark</button>
+    <button onclick="setTheme('auto')">Auto</button>
+  </div>
+
+  <script src="/widgets/webring/webring.wc.js?v=${new Date().getTime()}"></script>
+  <script>
+    function setTheme(theme) {
+      document.querySelectorAll('webring-widget').forEach(widget => {
+        widget.setAttribute('theme', theme);
+      });
+    }
+  </script>
+</body>
+</html>

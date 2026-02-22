@@ -22,8 +22,8 @@ export interface WebringData {
 export interface WebringProps {
   /** Data source URL or inline data */
   data?: WebringData | string;
-  /** Display mode: 'compact' | 'full' */
-  mode?: 'compact' | 'full';
+  /** Widget size: 'small' | 'medium' | 'large' */
+  size?: 'small' | 'medium' | 'large';
   /** Theme: 'dark' | 'light' | 'auto' */
   theme?: 'dark' | 'light' | 'auto';
   /** Callback when link is clicked */

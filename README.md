@@ -2,9 +2,32 @@
 
 A lightweight, dual-format webring widget for *.kerry.ink sites. Delivers as both an ES module and a self-contained Web Component.
 
+## 🚀 How to Deploy
+
+To publish changes to the live webring (updating all 7 constellation sites):
+
+1. **Build & Publish** (rebuilds widget + copies to `kerry.ink` repo):
+   ```bash
+   cd ~/house/desk/bring
+   npm run build
+   bash scripts/publish-cdn.sh
+   ```
+
+2. **Push to Production** (updates the CDN):
+   ```bash
+   cd ~/house/desk/kerry.ink
+   git add widgets/webring
+   git commit -m "Update webring widget"
+   git push
+   ```
+
+*The widget is hosted at `https://kerry.ink/widgets/webring/webring.wc.js`. All sites load it from there.*
+
+---
+
 ## What This Is
 
-A webring aggregator that displays links to interconnected sites (orfx.kerry.ink, nameless.quest, fullsmile.world, krry.dev, passage, etc.). Available in two flavors:
+A webring aggregator that displays links to interconnected sites (orfx.kerry.ink, nameless.quest, easeness.kerry.ink, dev.kerry.ink, passage, etc.). Available in two flavors:
 
 1. **ESM Module** (`webring.esm.js`) — Import in React/modern JS
 2. **Web Component** (`webring.wc.js`) — Drop into any HTML page

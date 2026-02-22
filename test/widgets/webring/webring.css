@@ -1,0 +1,160 @@
+/* Webring Widget Styles */
+
+:root {
+  --webring-text-color: #333;
+  --webring-bg-color: #fff;
+  --webring-link-color: #0066cc;
+  --webring-link-hover-color: #004499;
+  --webring-border-color: #ddd;
+  --webring-padding: 1rem;
+  --webring-font-family: system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
+  --webring-text-color: #eee;
+  --webring-bg-color: #222;
+  --webring-link-color: #66b3ff;
+  --webring-link-hover-color: #99ccff;
+  --webring-border-color: #444;
+}
+
+.webring {
+  color: var(--webring-text-color);
+  background: var(--webring-bg-color);
+  border: 1px solid var(--webring-border-color);
+  border-radius: 4px;
+  padding: var(--webring-padding);
+  font-family: var(--webring-font-family);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.webring--loading,
+.webring--error,
+.webring--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  text-align: center;
+}
+
+.webring--error {
+  color: #c33;
+  background: #fdd;
+  border-color: #fbb;
+}
+
+.webring__container {
+  width: 100%;
+}
+
+.webring__title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.webring__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.webring--compact .webring__links {
+  gap: 0.25rem;
+}
+
+.webring__link-item {
+  margin: 0;
+}
+
+.webring__link {
+  color: var(--webring-link-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.webring__link:hover {
+  color: var(--webring-link-hover-color);
+  text-decoration: underline;
+}
+
+.webring__link:active {
+  opacity: 0.8;
+}
+
+.webring__description {
+  margin: 0.25rem 0 0 0.5rem;
+  font-size: 0.9em;
+  opacity: 0.75;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .webring {
+    padding: 0.75rem;
+    font-size: 13px;
+  }
+
+  .webring__title {
+    font-size: 1em;
+  }
+}
+
+/* Theme variants */
+.webring--theme-dark {
+  --webring-text-color: #eee;
+  --webring-bg-color: #222;
+  --webring-link-color: #66b3ff;
+  --webring-link-hover-color: #99ccff;
+  --webring-border-color: #444;
+}
+
+.webring--theme-light {
+  --webring-text-color: #333;
+  --webring-bg-color: #fff;
+  --webring-link-color: #0066cc;
+  --webring-link-hover-color: #004499;
+  --webring-border-color: #ddd;
+}
+
+.webring--theme-auto {
+  /* Auto-detects system preference via prefers-color-scheme */
+}
+
+@media (prefers-color-scheme: dark) {
+  .webring--theme-auto {
+    --webring-text-color: #eee;
+    --webring-bg-color: #222;
+    --webring-link-color: #66b3ff;
+    --webring-link-hover-color: #99ccff;
+    --webring-border-color: #444;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .webring--theme-auto {
+    --webring-text-color: #333;
+    --webring-bg-color: #fff;
+    --webring-link-color: #0066cc;
+    --webring-link-hover-color: #004499;
+    --webring-border-color: #ddd;
+  }
+}
+
+/* Display modes */
+.webring--full .webring__links {
+  gap: 1rem;
+}
+
+.webring--compact .webring__title {
+  font-size: 1em;
+  margin-bottom: 0.5rem;
+}

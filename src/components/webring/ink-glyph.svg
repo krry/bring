@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <!-- Inkwell -->
+  <path d="M4 18h16v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2z" opacity="0.6"/>
+  <ellipse cx="12" cy="18" rx="8" ry="1.5" opacity="0.3"/>
+  
+  <!-- Fountain pen nib -->
+  <path d="M10 2l2-2 2 2v8l-2 2-2-2V2z"/>
+  <path d="M11 4h2v6h-2V4z" fill="white" opacity="0.4"/>
+  <circle cx="12" cy="11" r="0.5" fill="white"/>
+  
+  <!-- Pen body -->
+  <path d="M11 10h2l1 6-2 2-2-2 1-6z" opacity="0.8"/>
+  
+  <!-- Ink drop -->
+  <path d="M12 12c0 0-1 2-1 3s.5 1.5 1 1.5 1-.5 1-1.5-1-3-1-3z" opacity="0.5"/>
+</svg>

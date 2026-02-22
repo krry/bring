@@ -78,6 +78,28 @@ function copyData() {
 }
 
 /**
+ * Copy built files to test directory for demo
+ */
+function copyToTest() {
+  const testOutputDir = path.resolve(projectRoot, 'test', 'widgets', 'webring');
+  
+  // Ensure test output directory exists
+  if (!fs.existsSync(testOutputDir)) {
+    fs.mkdirSync(testOutputDir, { recursive: true });
+  }
+
+  // Copy all built files
+  const files = fs.readdirSync(outputDir);
+  files.forEach(file => {
+    const srcPath = path.resolve(outputDir, file);
+    const destPath = path.resolve(testOutputDir, file);
+    fs.copyFileSync(srcPath, destPath);
+  });
+  
+  console.log(`✓ Copied to test: ${testOutputDir}`);
+}
+
+/**
  * Build runner
  */
 export async function build(watch = false) {
@@ -109,6 +131,7 @@ export async function build(watch = false) {
     // Copy static files
     copyStyles();
     copyData();
+    copyToTest();
 
     if (!watch) {
       console.log('\n✅ Build complete!');

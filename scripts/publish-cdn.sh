@@ -19,5 +19,6 @@ cp -R "$BRING_DIR/public/widgets/webring/"* "$WIDGET_DEST/"
 
 # Status
 echo "✅ Widget updated in kerry.ink repo."
-echo "👉 To publish: cd $CDN_DIR && git add . && git commit -m 'update webring widget' && git push" | pbcopy
+echo "👉 To publish: "
+echo "cd $CDN_DIR && git add . && git commit -m 'update webring widget' && git push" | pbcopy
 echo "📄 Command copied to clipboard"
