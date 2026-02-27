@@ -3,8 +3,8 @@
 # Publish Webring Widget to kerry.ink (CDN)
 
 # Paths
-BRING_DIR="$HOME/house/desk/bring"
-CDN_DIR="$HOME/house/desk/kerry.ink"
+BRING_DIR="$HOME/house/cabinet/bring-widget"
+CDN_DIR="$HOME/house/cabinet/kerry.ink"
 WIDGET_DEST="$CDN_DIR/widgets/webring"
 
 # Build
