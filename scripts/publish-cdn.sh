@@ -17,8 +17,11 @@ echo "🚚 Deploying to $WIDGET_DEST..."
 mkdir -p "$WIDGET_DEST"
 cp -R "$BRING_DIR/public/widgets/webring/"* "$WIDGET_DEST/"
 
-# Status
-echo "✅ Widget updated in kerry.ink repo."
-echo "👉 To publish: "
-echo "cd $CDN_DIR && git add . && git commit -m 'update webring widget' && git push" | pbcopy
-echo "📄 Command copied to clipboard"
+# Commit & push kerry.ink
+echo "🚀 Committing and pushing kerry.ink..."
+cd "$CDN_DIR" || exit
+git add .
+git commit -m "update webring widget" || echo "⚠️  Nothing new to commit."
+git push
+
+echo "✅ Done. Widget live at kerry.ink."
