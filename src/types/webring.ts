@@ -6,6 +6,10 @@ export interface WebringLink {
   name: string;
   url: string;
   description?: string;
+  /** Emoji to render before the link label */
+  emoji?: string;
+  /** Hex color used for hover + border highlight */
+  color?: string;
   thumbnail?: string;
   theme?: 'dark' | 'light' | 'auto';
 }

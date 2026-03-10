@@ -90,8 +90,10 @@ class WebringElement extends HTMLElement {
     this.render();
   }
 
-  // Site-specific color mapping for hover states
-  private getLinkColor(url: string): string {
+  // Link-specific color mapping now comes from data (webring.json)
+  private getLinkColor(link: WebringData["links"][number]): string {
+    if (link.color) return link.color;
+    const url = link.url;
     if (url.includes("github.com")) return "#6e5494";
     if (url.includes("twitter.com") || url.includes("x.com")) return "#1da1f2";
     if (url.includes("mastodon")) return "#6364ff";
@@ -99,13 +101,6 @@ class WebringElement extends HTMLElement {
     if (url.includes("youtube")) return "#ff0000";
     if (url.includes("instagram")) return "#e4405f";
     if (url.includes("strangerloops")) return "#ff6b6b";
-    if (url.includes("orfx")) return "#6294DA";
-    if (url.includes("nameless")) return "#F448B8";
-    if (url.includes("easeness")) return "#48F4DD";
-    if (url.includes("kamadhenu")) return "#A4CA0C";
-    if (url.includes("inkwell")) return "#484BF4";
-    if (url.includes("passage")) return "#8748F4";
-    if (url.includes("dev")) return "#48F4C1";
     if (url.includes("svnr")) return "#48D2F4";
     return "#8b5cf6"; // Default purple
   }
@@ -118,15 +113,19 @@ class WebringElement extends HTMLElement {
     const initialSize = this.getSize();
 
     const linkStyles = this.data.links
-      .map(
-        (link, i) => `
+      .map((link, i) => {
+        const color = this.getLinkColor(link);
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        return `
       .link-${i}:hover {
-        background: ${isDark ? "rgba(" : "rgba("}${parseInt(this.getLinkColor(link.url).slice(1, 3), 16)}, ${parseInt(this.getLinkColor(link.url).slice(3, 5), 16)}, ${parseInt(this.getLinkColor(link.url).slice(5, 7), 16)}, ${isDark ? "0.2" : "0.15"});
-        border-left: 3px solid ${this.getLinkColor(link.url)};
+        background: rgba(${r}, ${g}, ${b}, ${isDark ? "0.2" : "0.15"});
+        border-left: 3px solid ${color};
         padding-left: calc(0.75em - 3px);
       }
-    `,
-      )
+    `;
+      })
       .join("");
 
     const style = `
@@ -356,26 +355,6 @@ class WebringElement extends HTMLElement {
       </style>
     `;
 
-    // Emoji mapping for common sites
-    const getEmoji = (url: string): string => {
-      if (url.includes("github.com")) return "🐙";
-      if (url.includes("twitter.com") || url.includes("x.com")) return "🐦";
-      if (url.includes("mastodon")) return "🐘";
-      if (url.includes("linkedin")) return "💼";
-      if (url.includes("youtube")) return "📺";
-      if (url.includes("instagram")) return "📸";
-      if (url.includes("strangerloops")) return "🌀";
-      if (url.includes("nameless")) return "🔮";
-      if (url.includes("easeness")) return "🛼";
-      if (url.includes("orfx")) return "🦾";
-      if (url.includes("kamadhenu")) return "🐄";
-      if (url.includes("inkwell")) return "🫟";
-      if (url.includes("passage")) return "⏳";
-      if (url.includes("dev")) return "👨🏼‍💻";
-      if (url.includes("svnr")) return "🎞️";
-      return "🔗";
-    };
-
     const linksHtml = `
       <ul class="links">
         ${this.data.links
@@ -383,7 +362,7 @@ class WebringElement extends HTMLElement {
             (link, i) => `
           <li>
             <a href="${link.url}" class="link-${i}" title="${link.description || ""}" target="_blank">
-              <span class="link-emoji">${getEmoji(link.url)}</span>
+              <span class="link-emoji">${link.emoji ?? "🔗"}</span>
               <span>${link.name}</span>
             </a>
           </li>
