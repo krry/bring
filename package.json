@@ -19,12 +19,12 @@
   },
   "scripts": {
     "build": "node build/build.js",
-    "dev": "node build/build.js --watch",
-    "watch": "node build/build.js --watch",
     "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map",
-    "publish": "bun run build && ./scripts/publish-cdn.sh",
+    "deploy": "bun run build && ./scripts/publish-cdn.sh",
+    "dev": "node build/build.js --watch",
     "test": "node test/server.js",
-    "test:build": "npm run build && npm run test"
+    "test:build": "npm run build && npm run test",
+    "watch": "node build/build.js --watch"
   },
   "keywords": [
     "webring",
