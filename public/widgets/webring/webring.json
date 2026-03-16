@@ -2,6 +2,13 @@
   "version": "1.0.0",
   "links": [
     {
+      "name": "ouracle",
+      "url": "https://ouracle.kerry.ink",
+      "description": "The cosmos has opinions",
+      "emoji": "🧿",
+      "color": "#E8A020"
+    },
+    {
       "name": "souvenir",
       "url": "https://souvenir.kerry.ink",
       "description": "Not your mother's doomscroll",
@@ -59,7 +66,7 @@
     }
   ],
   "metadata": {
-    "updated": "2026-03-02T00:00:00Z",
-    "count": 9
+    "updated": "2026-03-15T00:00:00Z",
+    "count": 10
   }
 }
