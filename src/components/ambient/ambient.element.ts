@@ -137,29 +137,31 @@ class AmbientElement extends HTMLElement {
   display:flex; align-items:center; justify-content:center;
 }
 .w[data-size="small"].on { animation:float 7s ease-in-out infinite,pulse-ring 2.5s ease-out infinite; }
-.w[data-size="small"] .panel,.w[data-size="small"] .hdr { display:none; }
-.w[data-size="medium"] .glyph { display:none; }
-.glyph { font-size:1.3em; line-height:1; color:var(--muted); transition:color .2s; user-select:none; pointer-events:none; }
-.w[data-size="small"].on .glyph { color:var(--accent); }
+.w[data-size="small"] .panel { display:none; }
+.w[data-size="medium"] .icon { display:none; }
+.icon { font-size:1.3em; line-height:1; color:var(--muted); transition:color .2s; user-select:none; }
+.w[data-size="small"].on .icon { color:var(--accent); }
 .w[data-size="medium"] { width:188px; animation:none; }
-.hdr { display:flex; align-items:center; gap:.4em; padding:.5em .7em .4em; border-bottom:1px solid var(--gb2); }
-.btn-close { background:none; border:none; color:var(--muted); cursor:pointer; font-size:1em; line-height:1; padding:0; transition:color .15s; }
-.btn-close.on { color:var(--accent); }
-.btn-close:hover { color:var(--text); }
-.lbl { font-size:.62em; letter-spacing:.12em; color:var(--muted); flex:1; }
-.panel { padding:.55em .7em; display:flex; flex-direction:column; gap:.45em; }
-.row { display:flex; align-items:center; gap:.4em; }
+.glyph {
+  font-size:1.3em; line-height:1; color:var(--muted);
+  transition:color .2s; user-select:none;
+  cursor:pointer; flex-shrink:0;
+}
+.glyph:hover { color:var(--text); }
+.w[data-size="medium"].on .glyph { color:var(--accent); }
+.panel { padding:.45em .6em; display:flex; flex-direction:column; gap:.45em; }
+.row { display:flex; align-items:center; gap:.5em; }
 .btn-play {
   background:none; border:1px solid var(--gb2); border-radius:8px;
-  color:var(--muted); cursor:pointer; font-size:.72em; line-height:1;
-  padding:.28em .42em; transition:color .15s,border-color .15s,background .15s;
+  color:var(--muted); cursor:pointer; font-size:1em; line-height:1;
+  padding:.25em .4em; transition:color .15s,border-color .15s,background .15s;
   flex-shrink:0; min-width:26px; text-align:center;
 }
 .btn-play:hover { color:var(--text); border-color:var(--accent); }
 .btn-play.on { color:var(--accent); border-color:var(--accent); background:rgba(167,139,250,.1); }
 .sel {
   appearance:none; background:none; border:none; color:var(--muted);
-  cursor:pointer; font-family:inherit; font-size:.62em; letter-spacing:.08em;
+  cursor:pointer; font-family:inherit; font-size:1em;
   padding:0; flex:1; transition:color .15s;
 }
 .sel:hover,.sel:focus { color:var(--accent); outline:none; }
@@ -182,25 +184,18 @@ class AmbientElement extends HTMLElement {
     const w = el('div', 'w');
     w.dataset.size = this._size;
 
-    // Small-state glyph
-    const glyph = el('span', 'glyph');
-    glyph.textContent = '♪';
-    w.appendChild(glyph);
+    // Small-state centered icon (hidden in medium)
+    const icon = el('span', 'icon');
+    icon.textContent = '♪';
+    w.appendChild(icon);
 
-    // Header (visible in medium)
-    const hdr     = el('div', 'hdr');
-    const btnClose = el('button', 'btn-close', { title: 'collapse' });
-    btnClose.textContent = '♪';
-    const lbl = el('span', 'lbl');
-    lbl.textContent = 'ambient';
-    hdr.append(btnClose, lbl);
-    w.appendChild(hdr);
-
-    // Panel
+    // Panel (hidden in small state)
     const panel = el('div', 'panel');
 
-    // Row: play + scene
+    // Row: glyph (collapse) + play + scene
     const row     = el('div', 'row');
+    const rowGlyph = el('span', 'glyph');
+    rowGlyph.textContent = '♪';
     const btnPlay = el('button', 'btn-play', { title: 'play / stop' });
     btnPlay.textContent = '▶';
 
@@ -212,7 +207,7 @@ class AmbientElement extends HTMLElement {
       if (ambientScene.value === s.id) opt.selected = true;
       sel.appendChild(opt);
     });
-    row.append(btnPlay, sel);
+    row.append(rowGlyph, btnPlay, sel);
     panel.appendChild(row);
 
     // Binaural beat control
@@ -239,7 +234,7 @@ class AmbientElement extends HTMLElement {
       if (this._size === 'small') { e.stopPropagation(); this._setSize('medium'); }
     });
 
-    this.shadow.querySelector('.btn-close')?.addEventListener('click', (e) => {
+    this.shadow.querySelector('.glyph')?.addEventListener('click', (e) => {
       e.stopPropagation();
       this._setSize('small');
     });
@@ -285,10 +280,8 @@ class AmbientElement extends HTMLElement {
     const on  = ambientRunning.value;
     const w   = this.shadow.querySelector('.w');
     const btn = this.shadow.querySelector<HTMLButtonElement>('.btn-play');
-    const cls = this.shadow.querySelector<HTMLButtonElement>('.btn-close');
     w?.classList.toggle('on', on);
     if (btn) { btn.textContent = on ? '■' : '▶'; btn.classList.toggle('on', on); }
-    if (cls) cls.classList.toggle('on', on);
   }
 
   private _updateSceneUI() {
