@@ -115,7 +115,7 @@ class AmbientElement extends HTMLElement {
   --gb2:${dark ? 'rgba(255,255,255,.10)' : 'rgba(255,255,255,.55)'};
   --text:${dark ? '#e0e0e6' : '#1a1a2e'};
   --muted:${dark ? '#78788a' : '#333'};
-  --accent:${dark ? '#a78bfa' : 'hsl(208,62%,38%)'};
+  --accent:${dark ? 'hsl(208,62%,62%)' : 'hsl(208,62%,38%)'};
   --sh:${dark ? '0 8px 32px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.3)' : '0 8px 32px rgba(0,0,0,.10),0 2px 8px rgba(0,0,0,.07)'};
   --spring:cubic-bezier(.34,1.26,.64,1);
 }
