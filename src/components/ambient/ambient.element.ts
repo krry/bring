@@ -167,7 +167,7 @@ class AmbientElement extends HTMLElement {
 .sel:hover,.sel:focus { color:var(--accent); outline:none; }
 .sel option { background:${dark ? '#1a1a2e' : '#fff'}; color:${dark ? '#e0e0e6' : '#1a1a2e'}; }
 .beat { display:flex; flex-direction:column; gap:.18em; }
-.beat-lbl { font-size:.58em; letter-spacing:.06em; color:var(--muted); font-variant-numeric:tabular-nums; text-align:right; }
+.beat-lbl { font-size:.78em; letter-spacing:.06em; color:var(--muted); font-variant-numeric:tabular-nums; text-align:right; }
 .beat-sl { appearance:none; background:${dark ? 'rgba(255,255,255,.15)' : 'rgba(0,0,0,.12)'}; border-radius:2px; height:2px; width:100%; cursor:pointer; }
 .beat-sl::-webkit-slider-thumb { appearance:none; background:var(--accent); border-radius:50%; height:10px; width:10px; }
 `;
