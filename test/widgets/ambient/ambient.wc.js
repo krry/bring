@@ -31,6 +31,7 @@
 }
 .w[data-size="small"].on { animation:float 7s ease-in-out infinite,pulse-ring 2.5s ease-out infinite; }
 .w[data-size="small"] .panel,.w[data-size="small"] .hdr { display:none; }
+.w[data-size="medium"] .glyph { display:none; }
 .glyph { font-size:1.3em; line-height:1; color:var(--muted); transition:color .2s; user-select:none; pointer-events:none; }
 .w[data-size="small"].on .glyph { color:var(--accent); }
 .w[data-size="medium"] { width:188px; animation:none; }
