@@ -130,11 +130,9 @@ class WebringElement extends HTMLElement {
 
     const style = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,MONO@-15..0,300..1000,0..1,0..1&display=swap');
-
         :host {
           display: block;
-          font-family: 'Recursive', system-ui, sans-serif;
+          font-family: system-ui, sans-serif;
           --glass-bg: ${isDark ? "rgba(20, 20, 20, 0.6)" : "rgba(255, 255, 255, 0.7)"};
           --glass-border: ${isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.5)"};
           --text: ${isDark ? "#e0e0e0" : "#1a1a1a"};
@@ -206,7 +204,7 @@ class WebringElement extends HTMLElement {
         }
 
         .widget[data-size="medium"] {
-          width: 112px;
+          width: 120px;
           height: auto;
           min-height: 64px;
           border-radius: 20px;
@@ -237,8 +235,7 @@ class WebringElement extends HTMLElement {
         }
         
         .logo-text {
-          font-family: 'Recursive', cursive;
-          font-variation-settings: 'CASL' 0.5, 'wght' 500, 'MONO' 0;
+          font-family: system-ui, sans-serif;
           color: var(--text);
           text-decoration: none;
           text-indent: 1em;
@@ -308,7 +305,6 @@ class WebringElement extends HTMLElement {
           color: var(--text);
           text-decoration: none;
           font-size: 0.9em;
-          font-variation-settings: 'CASL' 0.5, 'wght' 450;
           transition: all 0.3s var(--spring);
           border-left: 3px solid transparent;
         }

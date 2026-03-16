@@ -33,7 +33,7 @@
 .w[data-size="small"] .panel,.w[data-size="small"] .hdr { display:none; }
 .glyph { font-size:1.3em; line-height:1; color:var(--muted); transition:color .2s; user-select:none; pointer-events:none; }
 .w[data-size="small"].on .glyph { color:var(--accent); }
-.w[data-size="medium"] { width:120px; animation:none; }
+.w[data-size="medium"] { width:188px; animation:none; }
 .hdr { display:flex; align-items:center; gap:.4em; padding:.5em .7em .4em; border-bottom:1px solid var(--gb2); }
 .btn-close { background:none; border:none; color:var(--muted); cursor:pointer; font-size:1em; line-height:1; padding:0; transition:color .15s; }
 .btn-close.on { color:var(--accent); }
