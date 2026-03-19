@@ -1,14 +1,28 @@
-"use strict";var WebringWidget=(()=>{var w=Object.defineProperty;var x=(a,i,t)=>i in a?w(a,i,{enumerable:!0,configurable:!0,writable:!0,value:t}):a[i]=t;var l=(a,i,t)=>(x(a,typeof i!="symbol"?i+"":i,t),t);async function g(a){if(typeof a=="object"&&a!==null)return a;if(typeof a=="string"){let i=await fetch(a);if(!i.ok)throw new Error(`Failed to fetch webring data from ${a}: ${i.statusText}`);return i.json()}throw new Error("Invalid data source: must be a URL string or WebringData object")}function m(a){return typeof a=="object"&&typeof a.version=="string"&&Array.isArray(a.links)&&a.links.every(i=>typeof i.name=="string"&&typeof i.url=="string")}var d=class extends HTMLElement{constructor(){super();l(this,"shadow");l(this,"data",null);l(this,"loading",!1);this.shadow=this.attachShadow({mode:"open"})}static get observedAttributes(){return["data-source","size","theme"]}async connectedCallback(){await this.loadData(),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{this.getAttribute("theme")==="auto"&&this.updateTheme()})}async attributeChangedCallback(t,e,o){e!==o&&(t==="data-source"?(this.data=null,await this.loadData()):t==="size"?this.updateSize(o):t==="theme"&&this.updateTheme())}async loadData(){if(this.loading)return;let t=this.getAttribute("data-source");if(t){this.loading=!0;try{let e=await g(t);m(e)&&(this.data=e,this.render())}catch(e){console.error("Webring failed to load",e)}finally{this.loading=!1}}}resolveTheme(){let t=this.getAttribute("theme")||"auto";return t==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":t}getSize(){return this.getAttribute("size")||"small"}updateSize(t){let e=this.shadow.querySelector(".widget");e&&e.setAttribute("data-size",t)}updateTheme(){this.render()}getLinkColor(t){if(t.color)return t.color;let e=t.url;return e.includes("github.com")?"#6e5494":e.includes("twitter.com")||e.includes("x.com")?"#1da1f2":e.includes("mastodon")?"#6364ff":e.includes("linkedin")?"#0077b5":e.includes("youtube")?"#ff0000":e.includes("instagram")?"#e4405f":e.includes("strangerloops")?"#ff6b6b":e.includes("svnr")?"#48D2F4":"#8b5cf6"}render(){if(!this.data)return;let e=this.resolveTheme()==="dark",o=this.getSize(),c=this.data.links.map((r,s)=>{let n=this.getLinkColor(r),u=parseInt(n.slice(1,3),16),b=parseInt(n.slice(3,5),16),v=parseInt(n.slice(5,7),16);return`
+"use strict";var WebringWidget=(()=>{var w=Object.defineProperty;var v=(i,a,t)=>a in i?w(i,a,{enumerable:!0,configurable:!0,writable:!0,value:t}):i[a]=t;var l=(i,a,t)=>(v(i,typeof a!="symbol"?a+"":a,t),t);async function g(i){if(typeof i=="object"&&i!==null)return i;if(typeof i=="string"){let a=await fetch(i);if(!a.ok)throw new Error(`Failed to fetch webring data from ${i}: ${a.statusText}`);return a.json()}throw new Error("Invalid data source: must be a URL string or WebringData object")}function m(i){return typeof i=="object"&&typeof i.version=="string"&&Array.isArray(i.links)&&i.links.every(a=>typeof a.name=="string"&&typeof a.url=="string")}var d=class extends HTMLElement{constructor(){super();l(this,"shadow");l(this,"data",null);l(this,"loading",!1);this.shadow=this.attachShadow({mode:"open"})}static get observedAttributes(){return["data-source","size","theme"]}async connectedCallback(){await this.loadData(),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{this.getAttribute("theme")==="auto"&&this.updateTheme()})}async attributeChangedCallback(t,e,o){e!==o&&(t==="data-source"?(this.data=null,await this.loadData()):t==="size"?this.updateSize(o):t==="theme"&&this.updateTheme())}async loadData(){if(this.loading)return;let t=this.getAttribute("data-source");if(t){this.loading=!0;try{let e=await g(t);m(e)&&(this.data=e,this.render())}catch(e){console.error("Webring failed to load",e)}finally{this.loading=!1}}}resolveTheme(){let t=this.getAttribute("theme")||"auto";return t==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":t}getSize(){return this.getAttribute("size")||"small"}updateSize(t){let e=this.shadow.querySelector(".widget");e&&e.setAttribute("data-size",t)}updateTheme(){this.render()}getLinkColor(t){if(t.color)return t.color;let e=t.url;return e.includes("github.com")?"#6e5494":e.includes("twitter.com")||e.includes("x.com")?"#1da1f2":e.includes("mastodon")?"#6364ff":e.includes("linkedin")?"#0077b5":e.includes("youtube")?"#ff0000":e.includes("instagram")?"#e4405f":e.includes("strangerloops")?"#ff6b6b":e.includes("svnr")?"#48D2F4":"#8b5cf6"}render(){if(!this.data)return;let e=this.resolveTheme()==="dark",o=this.getSize(),c=this.data.links.map((r,s)=>{let n=this.getLinkColor(r),f=parseInt(n.slice(1,3),16),u=parseInt(n.slice(3,5),16),x=parseInt(n.slice(5,7),16);return`
       .link-${s}:hover {
-        background: rgba(${u}, ${b}, ${v}, ${e?"0.2":"0.15"});
+        background: rgba(${f}, ${u}, ${x}, ${e?"0.2":"0.15"});
         border-left: 3px solid ${n};
         padding-left: calc(0.75em - 3px);
       }
-    `}).join(""),h=`
+    `}).join(""),p=`
       <style>
         :host {
           display: block;
           font-family: system-ui, sans-serif;
+          /* Responsive positioning \u2014 can be overridden inline */
+          --widget-bottom: 2rem;
+          --widget-right: 2rem;
+          position: fixed;
+          bottom: var(--widget-bottom);
+          right: var(--widget-right);
+          z-index: 1000;
+          /* Mobile responsive */
+          @media (max-width: 640px) {
+            --widget-bottom: 1rem;
+            --widget-right: 1rem;
+            left: 1rem;
+            right: 1rem;
+          }
           --glass-bg: ${e?"rgba(20, 20, 20, 0.6)":"rgba(255, 255, 255, 0.7)"};
           --glass-border: ${e?"rgba(255, 255, 255, 0.15)":"rgba(255, 255, 255, 0.5)"};
           --text: ${e?"#e0e0e0":"#1a1a1a"};
@@ -60,16 +74,22 @@
           border: 1px solid var(--glass-border);
           box-shadow: var(--shadow);
           color: var(--text);
-          font-size: 0.8em;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: clamp(14px, 2.5vw, 16px);
           position: relative;
           overflow: hidden;
           will-change: width, height, border-radius;
+          display: inline-block;
+          width: fit-content;
+          min-width: 180px;
+          max-width: 100%;
+          box-sizing: border-box;
+          border-radius: 12px;
+          transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
 
-          /* Spring Transition */
-          transition: all 0.6s var(--spring);
-
-          /* Idle Animation */
-          animation: float 7s ease-in-out infinite;
+        .widget:hover {
+          box-shadow: ${e?"0 2px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)":"0 2px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08)"};
         }
 
         /* Size Variants */
@@ -80,7 +100,9 @@
         }
 
         .widget[data-size="medium"] {
-          width: 120px;
+          width: min(90vw, 320px);
+          max-width: 320px;
+          min-width: 180px;
           height: auto;
           min-height: 64px;
           border-radius: 20px;
@@ -177,8 +199,8 @@
         .links a {
           display: flex;
           align-items: center;
-          gap: 0.309em;
-          padding: 0.618em;
+          gap: 0.5em;
+          padding: 0.75em 1em;
           color: var(--text);
           text-decoration: none;
           font-size: 0.9em;
@@ -188,6 +210,7 @@
 
         .widget[data-size="medium"] .links a {
           font-size: 1em;
+          min-height: 44px; /* Ensure tap target */
         }
         
         .links a span {
@@ -226,7 +249,7 @@
           }
         }
       </style>
-    `,p=`
+    `,h=`
       <ul class="links">
         ${this.data.links.map((r,s)=>`
           <li>
@@ -237,12 +260,12 @@
           </li>
         `).join("")}
       </ul>
-    `,k=`<svg width="100%" height="100%" viewBox="0 0 80.252602 81.155724" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    `,y=`<svg width="100%" height="100%" viewBox="0 0 80.252602 81.155724" version="1.1" xmlns="http://www.w3.org/2000/svg">
       <g transform="translate(-10.698367,-11.054825)">
         <path d="m 143.65518,206.83961 c 2.41591,10.33473 -49.397142,58.91822 -59.555232,55.8431 -10.15809,-3.07513 -26.326103,-72.23829 -18.583923,-79.49789 7.742179,-7.2596 75.723245,13.32007 78.139155,23.65479 z" transform="translate(-52.786019,-170.61192)" />
       </g>
-    </svg>`,f=`
-      ${h}
+    </svg>`,b=`
+      ${p}
       <div class="widget" data-size="${o}">
         <div class="handle"><span class="logo-nib">\u2712\uFE0E</span></div>
         <div class="logo-container">
@@ -250,7 +273,7 @@
             <span class="logo-text">kerry.ink</span>
           </a>
         </div>
-        ${p}
+        ${h}
       </div>
-    `;this.shadow.innerHTML=f,this.shadow.querySelector(".handle")?.addEventListener("click",r=>{r.stopPropagation();let n=this.getSize()==="small"?"medium":"small";this.setAttribute("size",n)})}};customElements.get("webring-widget")||customElements.define("webring-widget",d);})();
+    `;this.shadow.innerHTML=b,this.shadow.querySelector(".handle")?.addEventListener("click",r=>{r.stopPropagation();let n=this.getSize()==="small"?"medium":"small";this.setAttribute("size",n)})}};customElements.get("webring-widget")||customElements.define("webring-widget",d);})();
 //# sourceMappingURL=webring.wc.js.map

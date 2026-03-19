@@ -133,6 +133,20 @@ class WebringElement extends HTMLElement {
         :host {
           display: block;
           font-family: system-ui, sans-serif;
+          /* Responsive positioning — can be overridden inline */
+          --widget-bottom: 2rem;
+          --widget-right: 2rem;
+          position: fixed;
+          bottom: var(--widget-bottom);
+          right: var(--widget-right);
+          z-index: 1000;
+          /* Mobile responsive */
+          @media (max-width: 640px) {
+            --widget-bottom: 1rem;
+            --widget-right: 1rem;
+            left: 1rem;
+            right: 1rem;
+          }
           --glass-bg: ${isDark ? "rgba(20, 20, 20, 0.6)" : "rgba(255, 255, 255, 0.7)"};
           --glass-border: ${isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.5)"};
           --text: ${isDark ? "#e0e0e0" : "#1a1a1a"};
@@ -184,16 +198,22 @@ class WebringElement extends HTMLElement {
           border: 1px solid var(--glass-border);
           box-shadow: var(--shadow);
           color: var(--text);
-          font-size: 0.8em;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: clamp(14px, 2.5vw, 16px);
           position: relative;
           overflow: hidden;
           will-change: width, height, border-radius;
+          display: inline-block;
+          width: fit-content;
+          min-width: 180px;
+          max-width: 100%;
+          box-sizing: border-box;
+          border-radius: 12px;
+          transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
 
-          /* Spring Transition */
-          transition: all 0.6s var(--spring);
-
-          /* Idle Animation */
-          animation: float 7s ease-in-out infinite;
+        .widget:hover {
+          box-shadow: ${isDark ? "0 2px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)" : "0 2px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08)"};
         }
 
         /* Size Variants */
@@ -204,7 +224,9 @@ class WebringElement extends HTMLElement {
         }
 
         .widget[data-size="medium"] {
-          width: 120px;
+          width: min(90vw, 320px);
+          max-width: 320px;
+          min-width: 180px;
           height: auto;
           min-height: 64px;
           border-radius: 20px;
@@ -300,17 +322,19 @@ class WebringElement extends HTMLElement {
         .links a {
           display: flex;
           align-items: center;
-          gap: 0.309em;
-          padding: 0.618em;
-          color: var(--text);
+          gap: 0.5em;
+          padding: 0.75em 1em;
           text-decoration: none;
           font-size: 0.9em;
+          font-weight: 700;
+          letter-spacing: 0.05em;
           transition: all 0.3s var(--spring);
           border-left: 3px solid transparent;
         }
 
         .widget[data-size="medium"] .links a {
           font-size: 1em;
+          min-height: 44px; /* Ensure tap target */
         }
         
         .links a span {

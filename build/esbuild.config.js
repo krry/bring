@@ -8,11 +8,9 @@ const projectRoot = path.resolve(__dirname, '..');
 const srcDir = path.resolve(projectRoot, 'src');
 const publicDir = path.resolve(projectRoot, 'public');
 const outputDir = path.resolve(publicDir, 'widgets', 'webring');
-const ambientOutputDir = path.resolve(publicDir, 'widgets', 'ambient');
 
-// Ensure output directories exist
+// Ensure output directory exists
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
-if (!fs.existsSync(ambientOutputDir)) fs.mkdirSync(ambientOutputDir, { recursive: true });
 
 const commonOptions = {
   bundle: true,
@@ -54,28 +52,7 @@ const wcConfig = {
 };
 
 // ── Ambient widget ─────────────────────────────────────────────────────────────
-
-const ambientEsmConfig = {
-  ...commonOptions,
-  entryPoints: [path.resolve(srcDir, 'components/ambient/Ambient.tsx')],
-  format: 'esm',
-  outfile: path.resolve(ambientOutputDir, 'ambient.esm.js'),
-  platform: 'browser',
-  target: 'es2020',
-};
-
-const ambientWcConfig = {
-  ...commonOptions,
-  external: [], // bundle everything — standalone IIFE, no react dep
-  entryPoints: [path.resolve(srcDir, 'components/ambient/ambient.element.ts')],
-  format: 'iife',
-  outfile: path.resolve(ambientOutputDir, 'ambient.wc.js'),
-  globalName: 'AmbientWidget',
-  platform: 'browser',
-  target: 'es2020',
-  bundle: true,
-  minify: true,
-};
+// REMOVED: Ambient widget no longer part of this repo
 
 /**
  * Copy CSS file
@@ -106,8 +83,7 @@ function copyData() {
  */
 function copyToTest() {
   const pairs = [
-    [outputDir,       path.resolve(projectRoot, 'test', 'widgets', 'webring')],
-    [ambientOutputDir, path.resolve(projectRoot, 'test', 'widgets', 'ambient')],
+    [outputDir, path.resolve(projectRoot, 'test', 'widgets', 'webring')],
   ];
   for (const [src, dest] of pairs) {
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
@@ -128,8 +104,6 @@ export async function build(watch = false) {
     const builds = [
       { label: 'webring ESM',  cfg: esmConfig },
       { label: 'webring WC',   cfg: wcConfig },
-      { label: 'ambient ESM',  cfg: ambientEsmConfig },
-      { label: 'ambient WC',   cfg: ambientWcConfig },
     ];
 
     for (const { label, cfg } of builds) {
@@ -151,7 +125,6 @@ export async function build(watch = false) {
     if (!watch) {
       console.log('\n✅ Build complete!');
       console.log('  webring: webring.esm.js, webring.wc.js, webring.css, webring.json');
-      console.log('  ambient: ambient.esm.js, ambient.wc.js');
       console.log('\n📦 Ready for deployment to CDN');
     } else {
       console.log('\n👀 Watching for changes... (Press Ctrl+C to stop)');
@@ -163,4 +136,4 @@ export async function build(watch = false) {
 }
 
 // Export for use in build.js
-export { esmConfig, wcConfig, ambientEsmConfig, ambientWcConfig };
+export { esmConfig, wcConfig };

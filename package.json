@@ -19,9 +19,9 @@
   },
   "scripts": {
     "build": "node build/build.js",
-    "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map",
-    "deploy": "bun run build && ./scripts/publish-cdn.sh",
+    "clean": "rm -rf public/widgets/webring/*.js public/widgets/webring/*.css public/widgets/webring/*.map public/widgets/ambient test/widgets/ambient",
     "dev": "node build/build.js --watch",
+    "ship": "bun run build && ./scripts/publish-cdn.sh",
     "test": "node test/server.js",
     "test:build": "npm run build && npm run test",
     "watch": "node build/build.js --watch"
