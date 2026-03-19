@@ -266,7 +266,9 @@ class WebringElement extends HTMLElement {
         }
         
         .logo-text {
-          font-family: system-ui, sans-serif;
+          font-family: 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+          font-size: 1.618em;
+          font-weight: 600;
           color: var(--text);
           text-decoration: none;
           text-indent: 1em;
@@ -295,8 +297,15 @@ class WebringElement extends HTMLElement {
           padding: 0;
           margin: 0;
           border-top: 1px solid var(--glass-border);
-          overflow: hidden; /* For height transition */
-          transition: opacity 0.4s ease;
+          overflow: hidden;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+        }
+
+        /* Emoji-only grid: hide text labels */
+        .links a .link-label {
+          display: none;
         }
 
         .widget[data-size="small"] .links {
@@ -333,13 +342,16 @@ class WebringElement extends HTMLElement {
           align-items: center;
           justify-content: center;
           gap: 0.5em;
-          padding: 0.75em 1em;
+          padding: 0.5em 0.25em;
           text-decoration: none;
           font-size: 0.9em;
           font-weight: 700;
           letter-spacing: 0.05em;
           transition: all 0.3s var(--spring);
           border-left: 3px solid transparent;
+          min-width: 44px;
+          min-height: 44px;
+          box-sizing: border-box;
         }
 
         .widget[data-size="medium"] .links a {
@@ -366,7 +378,7 @@ class WebringElement extends HTMLElement {
         }
 
         .link-emoji {
-          font-size: 1.1em;
+          font-size: 1.4em;
           flex-shrink: 0;
           transition: transform 0.3s var(--spring);
         }
@@ -391,9 +403,9 @@ class WebringElement extends HTMLElement {
           .map(
             (link, i) => `
           <li>
-            <a href="${link.url}" class="link-${i}" title="${link.description || ""}" target="_blank">
+            <a href="${link.url}" class="link-${i}" data-name="${link.name}" title="${link.description || link.name}" target="_blank">
               <span class="link-emoji">${link.emoji ?? "🔗"}</span>
-              <span>${link.name}</span>
+              <span class="link-label">${link.name}</span>
             </a>
           </li>
         `,
@@ -422,6 +434,18 @@ class WebringElement extends HTMLElement {
     `;
 
     this.shadow.innerHTML = html;
+
+    // Emoji grid hover: change logo text to site name
+    const logoText = this.shadow.querySelector(".logo-text");
+    this.shadow.querySelectorAll(".links a").forEach(a => {
+      const siteName = a.getAttribute("data-name");
+      a.addEventListener("mouseenter", () => {
+        if (logoText && siteName) logoText.textContent = siteName;
+      });
+      a.addEventListener("mouseleave", () => {
+        if (logoText) logoText.textContent = "kerry.ink";
+      });
+    });
 
     const handle = this.shadow.querySelector(".handle");
 
