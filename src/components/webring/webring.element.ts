@@ -223,6 +223,8 @@ class WebringElement extends HTMLElement {
         .widget[data-size="small"] {
           width: 4em;
           height: 4em;
+          min-width: 4em;
+          min-height: 4em;
           border-radius: 16px;
         }
 
@@ -233,10 +235,18 @@ class WebringElement extends HTMLElement {
           border-radius: 20px;
         }
 
+        @keyframes bounce-lift {
+          0%   { transform: translateY(0); }
+          40%  { transform: translateY(-2px); }
+          60%  { transform: translateY(0); }
+          80%  { transform: translateY(-1px); }
+          100% { transform: translateY(0); }
+        }
+
         .widget:hover {
           box-shadow: ${isDark ? "0 12px 48px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4)" : "0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1)"};
           border-color: ${isDark ? "rgba(255, 255, 255, 0.25)" : "rgba(255, 255, 255, 0.7)"};
-          transform: translateY(-2px);
+          animation: bounce-lift 0.6s cubic-bezier(0.34, 1.26, 0.64, 1);
         }
 
         /* Logo Layout */
