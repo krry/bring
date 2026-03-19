@@ -119,6 +119,9 @@ class WebringElement extends HTMLElement {
         const g = parseInt(color.slice(3, 5), 16);
         const b = parseInt(color.slice(5, 7), 16);
         return `
+      .link-${i} {
+        color: ${color};
+      }
       .link-${i}:hover {
         background: rgba(${r}, ${g}, ${b}, ${isDark ? "0.2" : "0.15"});
         border-left: 3px solid ${color};
@@ -224,8 +227,6 @@ class WebringElement extends HTMLElement {
         }
 
         .widget[data-size="medium"] {
-          width: min(90vw, 320px);
-          max-width: 320px;
           min-width: 180px;
           height: auto;
           min-height: 64px;
