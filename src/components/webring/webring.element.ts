@@ -212,7 +212,7 @@ class WebringElement extends HTMLElement {
           max-width: 100%;
           box-sizing: border-box;
           border-radius: 12px;
-          transition: box-shadow 0.2s ease, border-color 0.2s ease;
+          transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.4s ease;
         }
 
         .widget:hover {
@@ -314,7 +314,6 @@ class WebringElement extends HTMLElement {
         }
 
         .widget[data-size="medium"] .links {
-          display: block;
           opacity: 1;
         }
 
@@ -401,14 +400,17 @@ class WebringElement extends HTMLElement {
       <ul class="links">
         ${this.data.links
           .map(
-            (link, i) => `
+            (link, i) => {
+              const color = this.getLinkColor(link);
+              return `
           <li>
-            <a href="${link.url}" class="link-${i}" data-name="${link.name}" title="${link.description || link.name}" target="_blank">
+            <a href="${link.url}" class="link-${i}" data-name="${link.name}" data-color="${color}" title="${link.description || link.name}" target="_blank">
               <span class="link-emoji">${link.emoji ?? "🔗"}</span>
               <span class="link-label">${link.name}</span>
             </a>
           </li>
-        `,
+        `;
+            },
           )
           .join("")}
       </ul>
@@ -435,15 +437,27 @@ class WebringElement extends HTMLElement {
 
     this.shadow.innerHTML = html;
 
-    // Emoji grid hover: change logo text to site name
+    // Emoji grid hover: change logo text to site name & tint widget background
     const logoText = this.shadow.querySelector(".logo-text");
+    const widget = this.shadow.querySelector(".widget");
     this.shadow.querySelectorAll(".links a").forEach(a => {
       const siteName = a.getAttribute("data-name");
+      const colorHex = a.getAttribute("data-color");
+      // Precompute rgba background tint (semi-transparent)
+      let bgColor = null;
+      if (colorHex) {
+        const r = parseInt(colorHex.slice(1, 3), 16);
+        const g = parseInt(colorHex.slice(3, 5), 16);
+        const b = parseInt(colorHex.slice(5, 7), 16);
+        bgColor = `rgba(${r}, ${g}, ${b}, 0.12)`;
+      }
       a.addEventListener("mouseenter", () => {
         if (logoText && siteName) logoText.textContent = siteName;
+        if (widget && bgColor) (widget as HTMLElement).style.background = bgColor;
       });
       a.addEventListener("mouseleave", () => {
         if (logoText) logoText.textContent = "kerry.ink";
+        if (widget) (widget as HTMLElement).style.background = ""; // Revert to CSS variable default
       });
     });
 
