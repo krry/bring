@@ -77,7 +77,7 @@
           border: 1px solid var(--glass-border);
           box-shadow: var(--shadow);
           color: var(--text);
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-family: 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
           font-size: clamp(14px, 2.5vw, 16px);
           position: relative;
           overflow: hidden;
@@ -99,6 +99,8 @@
         .widget[data-size="small"] {
           width: 4em;
           height: 4em;
+          min-width: 4em;
+          min-height: 4em;
           border-radius: 16px;
         }
 
@@ -109,10 +111,16 @@
           border-radius: 20px;
         }
 
+        @keyframes bounce-lift {
+          0%   { transform: translateY(0); }
+          40%  { transform: translateY(-2px); }
+          100% { transform: translateY(0); }
+        }
+
         .widget:hover {
           box-shadow: ${e?"0 12px 48px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4)":"0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1)"};
           border-color: ${e?"rgba(255, 255, 255, 0.25)":"rgba(255, 255, 255, 0.7)"};
-          transform: translateY(-2px);
+          animation: bounce-lift 0.6s cubic-bezier(0.34, 1.26, 0.64, 1);
         }
 
         /* Logo Layout */
@@ -200,6 +208,7 @@
         .links a {
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 0.5em;
           padding: 0.75em 1em;
           text-decoration: none;
@@ -262,7 +271,7 @@
           </li>
         `).join("")}
       </ul>
-    `,k=`<svg width="100%" height="100%" viewBox="0 0 80.252602 81.155724" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    `,y=`<svg width="100%" height="100%" viewBox="0 0 80.252602 81.155724" version="1.1" xmlns="http://www.w3.org/2000/svg">
       <g transform="translate(-10.698367,-11.054825)">
         <path d="m 143.65518,206.83961 c 2.41591,10.33473 -49.397142,58.91822 -59.555232,55.8431 -10.15809,-3.07513 -26.326103,-72.23829 -18.583923,-79.49789 7.742179,-7.2596 75.723245,13.32007 78.139155,23.65479 z" transform="translate(-52.786019,-170.61192)" />
       </g>

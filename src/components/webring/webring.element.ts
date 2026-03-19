@@ -201,7 +201,7 @@ class WebringElement extends HTMLElement {
           border: 1px solid var(--glass-border);
           box-shadow: var(--shadow);
           color: var(--text);
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-family: 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
           font-size: clamp(14px, 2.5vw, 16px);
           position: relative;
           overflow: hidden;
@@ -238,8 +238,6 @@ class WebringElement extends HTMLElement {
         @keyframes bounce-lift {
           0%   { transform: translateY(0); }
           40%  { transform: translateY(-2px); }
-          60%  { transform: translateY(0); }
-          80%  { transform: translateY(-1px); }
           100% { transform: translateY(0); }
         }
 
@@ -333,6 +331,7 @@ class WebringElement extends HTMLElement {
         .links a {
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 0.5em;
           padding: 0.75em 1em;
           text-decoration: none;
