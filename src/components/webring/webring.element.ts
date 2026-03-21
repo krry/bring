@@ -208,7 +208,6 @@ class WebringElement extends HTMLElement {
           will-change: width, height, border-radius;
           display: inline-block;
           width: fit-content;
-          min-width: 180px;
           max-width: 100%;
           box-sizing: border-box;
           border-radius: 12px;
@@ -229,7 +228,6 @@ class WebringElement extends HTMLElement {
         }
 
         .widget[data-size="medium"] {
-          min-width: 180px;
           height: auto;
           min-height: 64px;
           border-radius: 20px;
@@ -267,7 +265,7 @@ class WebringElement extends HTMLElement {
         
         .logo-text {
           font-family: 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-          font-size: 1.618em;
+          font-size: 1.326em;
           font-weight: 600;
           color: var(--text);
           text-decoration: none;
@@ -340,34 +338,42 @@ class WebringElement extends HTMLElement {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.5em;
-          padding: 0.5em 0.25em;
+          gap: 0.4em;
+          padding: 0.45em 0.8em;
           text-decoration: none;
-          font-size: 0.9em;
-          font-weight: 700;
-          letter-spacing: 0.05em;
-          transition: all 0.3s var(--spring);
-          border-left: 3px solid transparent;
+          font-size: 0.85em;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          border-radius: 999px;
           min-width: 44px;
           min-height: 44px;
           box-sizing: border-box;
         }
 
         .widget[data-size="medium"] .links a {
-          font-size: 1em;
+          font-size: 0.95em;
+          padding: 0.6em 1em;
           min-height: 44px; /* Ensure tap target */
         }
-        
-        .links a span {
-          transition: transform 0.2s var(--spring);
+
+        .links a span.link-label {
+          transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .links a:hover span:not(.link-emoji) {
-          transform: translateX(2px);
+        .links a:hover {
+          background: rgba(255, 255, 255, ${isDark ? "0.08" : "0.15"});
+          border-left: none;
+          padding-left: 0.8em;
+        }
+
+        .links a:hover span.link-label {
+          transform: translateX(1px);
         }
 
         .links a:active {
-          transform: scale(0.97);
+          transform: scale(0.96);
           transition: transform 0.1s ease;
         }
 
