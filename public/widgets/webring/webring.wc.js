@@ -1,9 +1,9 @@
-"use strict";var WebringWidget=(()=>{var y=Object.defineProperty;var z=(i,r,t)=>r in i?y(i,r,{enumerable:!0,configurable:!0,writable:!0,value:t}):i[r]=t;var m=(i,r,t)=>(z(i,typeof r!="symbol"?r+"":r,t),t);async function b(i){if(typeof i=="object"&&i!==null)return i;if(typeof i=="string"){let r=await fetch(i);if(!r.ok)throw new Error(`Failed to fetch webring data from ${i}: ${r.statusText}`);return r.json()}throw new Error("Invalid data source: must be a URL string or WebringData object")}function f(i){return typeof i=="object"&&typeof i.version=="string"&&Array.isArray(i.links)&&i.links.every(r=>typeof r.name=="string"&&typeof r.url=="string")}var h=class extends HTMLElement{constructor(){super();m(this,"shadow");m(this,"data",null);m(this,"loading",!1);this.shadow=this.attachShadow({mode:"open"})}static get observedAttributes(){return["data-source","size","theme"]}async connectedCallback(){await this.loadData(),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{this.getAttribute("theme")==="auto"&&this.updateTheme()})}async attributeChangedCallback(t,e,l){e!==l&&(t==="data-source"?(this.data=null,await this.loadData()):t==="size"?this.updateSize(l):t==="theme"&&this.updateTheme())}async loadData(){if(this.loading)return;let t=this.getAttribute("data-source");if(t){this.loading=!0;try{let e=await b(t);f(e)&&(this.data=e,this.render())}catch(e){console.error("Webring failed to load",e)}finally{this.loading=!1}}}resolveTheme(){let t=this.getAttribute("theme")||"auto";return t==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":t}getSize(){return this.getAttribute("size")||"small"}updateSize(t){let e=this.shadow.querySelector(".widget");e&&e.setAttribute("data-size",t)}updateTheme(){this.render()}getLinkColor(t){if(t.color)return t.color;let e=t.url;return e.includes("github.com")?"#6e5494":e.includes("twitter.com")||e.includes("x.com")?"#1da1f2":e.includes("mastodon")?"#6364ff":e.includes("linkedin")?"#0077b5":e.includes("youtube")?"#ff0000":e.includes("instagram")?"#e4405f":e.includes("strangerloops")?"#ff6b6b":e.includes("svnr")?"#48D2F4":"#8b5cf6"}render(){if(!this.data)return;let e=this.resolveTheme()==="dark",l=this.getSize(),u=this.data.links.map((a,n)=>{let s=this.getLinkColor(a),o=parseInt(s.slice(1,3),16),c=parseInt(s.slice(3,5),16),p=parseInt(s.slice(5,7),16);return`
+"use strict";var WebringWidget=(()=>{var k=Object.defineProperty;var z=(i,r,t)=>r in i?k(i,r,{enumerable:!0,configurable:!0,writable:!0,value:t}):i[r]=t;var c=(i,r,t)=>(z(i,typeof r!="symbol"?r+"":r,t),t);async function b(i){if(typeof i=="object"&&i!==null)return i;if(typeof i=="string"){let r=await fetch(i);if(!r.ok)throw new Error(`Failed to fetch webring data from ${i}: ${r.statusText}`);return r.json()}throw new Error("Invalid data source: must be a URL string or WebringData object")}function f(i){return typeof i=="object"&&typeof i.version=="string"&&Array.isArray(i.links)&&i.links.every(r=>typeof r.name=="string"&&typeof r.url=="string")}var h=class extends HTMLElement{constructor(){super();c(this,"shadow");c(this,"data",null);c(this,"loading",!1);this.shadow=this.attachShadow({mode:"open"})}static get observedAttributes(){return["data-source","size","theme"]}async connectedCallback(){await this.loadData(),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{this.getAttribute("theme")==="auto"&&this.updateTheme()})}async attributeChangedCallback(t,e,l){e!==l&&(t==="data-source"?(this.data=null,await this.loadData()):t==="size"?this.updateSize(l):t==="theme"&&this.updateTheme())}async loadData(){if(this.loading)return;let t=this.getAttribute("data-source");if(t){this.loading=!0;try{let e=await b(t);f(e)&&(this.data=e,this.render())}catch(e){console.error("Webring failed to load",e)}finally{this.loading=!1}}}resolveTheme(){let t=this.getAttribute("theme")||"auto";return t==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":t}getSize(){return this.getAttribute("size")||"small"}updateSize(t){let e=this.shadow.querySelector(".widget");e&&e.setAttribute("data-size",t)}updateTheme(){this.render()}getLinkColor(t){if(t.color)return t.color;let e=t.url;return e.includes("github.com")?"#6e5494":e.includes("twitter.com")||e.includes("x.com")?"#1da1f2":e.includes("mastodon")?"#6364ff":e.includes("linkedin")?"#0077b5":e.includes("youtube")?"#ff0000":e.includes("instagram")?"#e4405f":e.includes("strangerloops")?"#ff6b6b":e.includes("svnr")?"#48D2F4":"#8b5cf6"}render(){if(!this.data)return;let e=this.resolveTheme()==="dark",l=this.getSize(),u=this.data.links.map((a,n)=>{let s=this.getLinkColor(a),o=parseInt(s.slice(1,3),16),m=parseInt(s.slice(3,5),16),p=parseInt(s.slice(5,7),16);return`
       .link-${n} {
         color: ${s};
       }
       .link-${n}:hover {
-        background: rgba(${o}, ${c}, ${p}, ${e?"0.2":"0.15"});
+        background: rgba(${o}, ${m}, ${p}, ${e?"0.2":"0.15"});
         border-left: 3px solid ${s};
         padding-left: calc(0.75em - 3px);
       }
@@ -41,29 +41,29 @@
         }
 
         .handle {
-          position: absolute;
-          top: 0.39em;
-          left: 0.3em;
-          bottom: 0;
-          right: 0;
-          width: 4em;
-          height: 4em;
+          width: 3.5em;
+          height: 3.5em;
           cursor: pointer;
           transition: all 0.2s ease;
-          z-index: 10;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           color: ${e?"rgba(255, 255, 255, 0.3)":"rgba(0, 0, 0, 0.2)"};
-          transform: scale(1) rotate(40deg);
+          transform: rotate(40deg);
         }
-        
+
         .widget[data-size="medium"] .handle {
-          width: 3.5em;
-          height: 4.1em;
-          transform: scale(0.8) rotate(-135deg) translate(1.4em, 0.6em);
+          transform: rotate(-135deg);
         }
 
         .handle:hover {
-          transform: scale(1.15) rotate(45deg);
-          color: ${e?"rgba(255, 255, 255, 0.5)":"rgba(0, 0, 0, 0.35)"}; 
+          transform: rotate(45deg) scale(1.15);
+          color: ${e?"rgba(255, 255, 255, 0.5)":"rgba(0, 0, 0, 0.35)"};
+        }
+
+        .widget[data-size="medium"] .handle:hover {
+          transform: rotate(-135deg) scale(1.15);
         }
 
         .handle:active {
@@ -125,13 +125,14 @@
         .logo-container {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           user-select: none;
           transition: padding 0.6s var(--spring);
         }
 
         .widget[data-size="medium"] .logo-container {
-          padding: 1em;
-          justify-content: center;
+          padding: 0 0.5em 0 1em;
+          border-top: 1px solid var(--glass-border);
         }
 
         .logo-nib {
@@ -141,7 +142,7 @@
         
         .logo-text {
           font-family: 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-          font-size: 1.618em;
+          font-size: 1.326em;
           font-weight: 600;
           color: var(--text);
           text-decoration: none;
@@ -150,7 +151,10 @@
         }
 
         .widget[data-size="small"] .logo-container {
-          padding: 0.832em 1em 1em 1.32em;
+          justify-content: center;
+          padding: 0;
+          width: 4em;
+          height: 4em;
         }
 
         .widget[data-size="small"] .logo-text {
@@ -170,7 +174,6 @@
           list-style: none;
           padding: 0;
           margin: 0;
-          border-top: 1px solid var(--glass-border);
           overflow: hidden;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -295,13 +298,13 @@
     </svg>`,v=`
       ${x}
       <div class="widget" data-size="${l}">
-        <div class="handle"><span class="logo-nib">\u2712\uFE0E</span></div>
+        ${w}
         <div class="logo-container">
           <a href="https://kerry.ink" class="logo-link" target="_blank" style="display: flex; align-items: center; gap: 0.5em; text-decoration: none; color: inherit;">
             <span class="logo-text">kerry.ink</span>
           </a>
+          <div class="handle"><span class="logo-nib">\u2712\uFE0E</span></div>
         </div>
-        ${w}
       </div>
-    `;this.shadow.innerHTML=v;let d=this.shadow.querySelector(".logo-text"),g=this.shadow.querySelector(".widget");this.shadow.querySelectorAll(".links a").forEach(a=>{let n=a.getAttribute("data-name"),s=a.getAttribute("data-color"),o=null;if(s){let c=parseInt(s.slice(1,3),16),p=parseInt(s.slice(3,5),16),k=parseInt(s.slice(5,7),16);o=`rgba(${c}, ${p}, ${k}, 0.12)`}a.addEventListener("mouseenter",()=>{d&&n&&(d.textContent=n),g&&o&&(g.style.background=o)}),a.addEventListener("mouseleave",()=>{d&&(d.textContent="kerry.ink"),g&&(g.style.background="")})}),this.shadow.querySelector(".handle")?.addEventListener("click",a=>{a.stopPropagation();let s=this.getSize()==="small"?"medium":"small";this.setAttribute("size",s)})}};customElements.get("webring-widget")||customElements.define("webring-widget",h);})();
+    `;this.shadow.innerHTML=v;let d=this.shadow.querySelector(".logo-text"),g=this.shadow.querySelector(".widget");this.shadow.querySelectorAll(".links a").forEach(a=>{let n=a.getAttribute("data-name"),s=a.getAttribute("data-color"),o=null;if(s){let m=parseInt(s.slice(1,3),16),p=parseInt(s.slice(3,5),16),y=parseInt(s.slice(5,7),16);o=`rgba(${m}, ${p}, ${y}, 0.12)`}a.addEventListener("mouseenter",()=>{d&&n&&(d.textContent=n),g&&o&&(g.style.background=o)}),a.addEventListener("mouseleave",()=>{d&&(d.textContent="kerry.ink"),g&&(g.style.background="")})}),this.shadow.querySelector(".handle")?.addEventListener("click",a=>{a.stopPropagation();let s=this.getSize()==="small"?"medium":"small";this.setAttribute("size",s)})}};customElements.get("webring-widget")||customElements.define("webring-widget",h);})();
 //# sourceMappingURL=webring.wc.js.map

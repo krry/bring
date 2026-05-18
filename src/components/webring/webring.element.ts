@@ -165,29 +165,29 @@ class WebringElement extends HTMLElement {
         }
 
         .handle {
-          position: absolute;
-          top: 0.39em;
-          left: 0.3em;
-          bottom: 0;
-          right: 0;
-          width: 4em;
-          height: 4em;
+          width: 3.5em;
+          height: 3.5em;
           cursor: pointer;
           transition: all 0.2s ease;
-          z-index: 10;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           color: ${isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.2)"};
-          transform: scale(1) rotate(40deg);
+          transform: rotate(40deg);
         }
-        
+
         .widget[data-size="medium"] .handle {
-          width: 3.5em;
-          height: 4.1em;
-          transform: scale(0.8) rotate(-135deg) translate(1.4em, 0.6em);
+          transform: rotate(-135deg);
         }
 
         .handle:hover {
-          transform: scale(1.15) rotate(45deg);
-          color: ${isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.35)"}; 
+          transform: rotate(45deg) scale(1.15);
+          color: ${isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.35)"};
+        }
+
+        .widget[data-size="medium"] .handle:hover {
+          transform: rotate(-135deg) scale(1.15);
         }
 
         .handle:active {
@@ -249,13 +249,14 @@ class WebringElement extends HTMLElement {
         .logo-container {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           user-select: none;
           transition: padding 0.6s var(--spring);
         }
 
         .widget[data-size="medium"] .logo-container {
-          padding: 1em;
-          justify-content: center;
+          padding: 0 0.5em 0 1em;
+          border-top: 1px solid var(--glass-border);
         }
 
         .logo-nib {
@@ -274,7 +275,10 @@ class WebringElement extends HTMLElement {
         }
 
         .widget[data-size="small"] .logo-container {
-          padding: 0.832em 1em 1em 1.32em;
+          justify-content: center;
+          padding: 0;
+          width: 4em;
+          height: 4em;
         }
 
         .widget[data-size="small"] .logo-text {
@@ -294,7 +298,6 @@ class WebringElement extends HTMLElement {
           list-style: none;
           padding: 0;
           margin: 0;
-          border-top: 1px solid var(--glass-border);
           overflow: hidden;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -431,13 +434,13 @@ class WebringElement extends HTMLElement {
     const html = `
       ${style}
       <div class="widget" data-size="${initialSize}">
-        <div class="handle"><span class="logo-nib">✒︎</span></div>
+        ${linksHtml}
         <div class="logo-container">
           <a href="https://kerry.ink" class="logo-link" target="_blank" style="display: flex; align-items: center; gap: 0.5em; text-decoration: none; color: inherit;">
             <span class="logo-text">kerry.ink</span>
           </a>
+          <div class="handle"><span class="logo-nib">✒︎</span></div>
         </div>
-        ${linksHtml}
       </div>
     `;
 
