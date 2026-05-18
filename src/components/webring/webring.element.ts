@@ -158,8 +158,6 @@ class WebringElement extends HTMLElement {
           @media (max-width: 640px) {
             --widget-bottom: 1rem;
             --widget-right: 1rem;
-            left: 1rem;
-            right: 1rem;
           }
           --glass-bg: ${isDark ? "rgba(20, 20, 20, 0.6)" : "rgba(255, 255, 255, 0.7)"};
           --glass-border: ${isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.5)"};
