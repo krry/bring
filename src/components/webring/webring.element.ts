@@ -281,6 +281,11 @@ class WebringElement extends HTMLElement {
           text-decoration: none;
           text-indent: 1em;
           transition: opacity 0.2s ease;
+          display: inline-block;
+          width: 8em;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .widget[data-size="small"] .logo-container {
