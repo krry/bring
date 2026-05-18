@@ -16,7 +16,7 @@ class WebringElement extends HTMLElement {
   }
 
   static get observedAttributes(): string[] {
-    return ["data-source", "size", "theme"];
+    return ["data-source", "size", "theme", "position"];
   }
 
   async connectedCallback(): Promise<void> {
@@ -41,6 +41,8 @@ class WebringElement extends HTMLElement {
       this.updateSize(newValue as "small" | "medium");
     } else if (name === "theme") {
       this.updateTheme();
+    } else if (name === "position") {
+      this.updatePosition(newValue);
     }
   }
 
@@ -88,6 +90,15 @@ class WebringElement extends HTMLElement {
     // but ideally we'd use CSS variables.
     // Since our current render uses JS for colors, we'll re-render for theme only.
     this.render();
+  }
+
+  private updatePosition(pos: string): void {
+    const widget = this.shadow.querySelector(".widget");
+    if (widget) widget.classList.toggle("is-left", pos.includes("left"));
+  }
+
+  private isLeft(): boolean {
+    return (this.getAttribute("position") ?? "").includes("left");
   }
 
   // Link-specific color mapping now comes from data (webring.json)
@@ -281,6 +292,10 @@ class WebringElement extends HTMLElement {
           height: 4em;
         }
 
+        .widget.is-left .logo-container {
+          flex-direction: row-reverse;
+        }
+
         .widget[data-size="small"] .logo-text {
           display: none;
         }
@@ -433,7 +448,7 @@ class WebringElement extends HTMLElement {
 
     const html = `
       ${style}
-      <div class="widget" data-size="${initialSize}">
+      <div class="widget${this.isLeft() ? " is-left" : ""}" data-size="${initialSize}">
         ${linksHtml}
         <div class="logo-container">
           <a href="https://kerry.ink" class="logo-link" target="_blank" style="display: flex; align-items: center; gap: 0.5em; text-decoration: none; color: inherit;">
